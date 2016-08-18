@@ -13,37 +13,28 @@ import QuartzCore
 public final class PKHUDAnimation {
     
     static let discreteRotation: CAAnimation = {
+        let pi_6 = Float(M_PI) / 6.0
+        
         let animation = CAKeyframeAnimation(keyPath: "transform.rotation.z")
-        animation.values = [
-            NSNumber(value: 0.0),
-            NSNumber(value: 1.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 2.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 3.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 4.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 5.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 6.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 7.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 8.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 9.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 10.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 11.0 * Float(M_PI) / 6.0),
-            NSNumber(value: 2.0 * Float(M_PI))
-        ]
-        animation.keyTimes = [
-            NSNumber(value: 0.0),
-            NSNumber(value: 1.0 / 12.0),
-            NSNumber(value: 2.0 / 12.0),
-            NSNumber(value: 3.0 / 12.0),
-            NSNumber(value: 4.0 / 12.0),
-            NSNumber(value: 5.0 / 12.0),
-            NSNumber(value: 0.5),
-            NSNumber(value: 7.0 / 12.0),
-            NSNumber(value: 8.0 / 12.0),
-            NSNumber(value: 9.0 / 12.0),
-            NSNumber(value: 10.0 / 12.0),
-            NSNumber(value: 11.0 / 12.0),
-            NSNumber(value: 1.0)
-        ]
+        
+        var valuesArray: [NSNumber] = []
+        var keyTimesArray: [NSNumber] = []
+        
+        var value: NSNumber
+        var keyTime: NSNumber
+        
+        for i in 0...12 {
+            let floatIndex = Float(i)
+            value = NSNumber(value: (floatIndex * pi_6))
+            valuesArray.append(value)
+            
+            keyTime = NSNumber(value: (floatIndex/12.0))
+            keyTimesArray.append(keyTime)
+        }
+        
+        animation.values = valuesArray
+        animation.keyTimes = keyTimesArray
+        
         animation.duration = 1.2
         animation.calculationMode = "discrete"
         animation.repeatCount = Float(INT_MAX)

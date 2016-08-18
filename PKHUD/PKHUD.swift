@@ -118,26 +118,27 @@ open class PKHUD: NSObject {
     }
     
     internal func performDelayedHide(_ timer: Timer? = nil) {
-        let key = timer?.userInfo?["timerActionKey"] as? String
         var completion: TimerAction?
-        
-        if let key = key, let action = timerActions[key] {
+
+        if let userInfo = timer?.userInfo as? Dictionary<String, Any>,
+            let key = userInfo["timerActionKey"] as? String,
+            let action = timerActions[key] {
             completion = action
             timerActions[key] = nil
         }
-        
+                
         hide(animated: true, completion: completion);
     }
     
     internal func startAnimatingContentView() {
-        if isVisible && contentView.conforms(to: PKHUDAnimating) {
+        if isVisible && contentView.conforms(to: PKHUDAnimating.self) {
             let animatingContentView = contentView as! PKHUDAnimating
             animatingContentView.startAnimation()
         }
     }
     
     internal func stopAnimatingContentView() {
-        if contentView.conforms(to: PKHUDAnimating) {
+        if contentView.conforms(to: PKHUDAnimating.self) {
             let animatingContentView = contentView as! PKHUDAnimating
             animatingContentView.stopAnimation?()
         }
